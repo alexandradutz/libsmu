@@ -129,6 +129,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND INSTALL_UDEV_RULES)
 	install(FILES ${LIBSMU_UDEV_RULES} DESTINATION ${UDEV_RULES_PATH})
 endif()
 
+message("CMAKE current binary dir" ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 # generate API docs with doxygen
 if(WITH_DOC)
 	find_package(Doxygen REQUIRED)
