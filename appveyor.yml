@@ -156,7 +156,6 @@ build_script:
   # create libsmu zipfile
   - mkdir c:\libsmu-MinGW
   - mkdir c:\libsmu-MinGW\drivers
-  - mkdir c:\libsmu-MinGW
   - copy c:\projects\libsmu\include\libsmu\libsmu.hpp c:\libsmu-MinGW
   - copy c:\projects\libsmu\dist\m1k-winusb.inf c:\libsmu-MinGW\drivers
   - copy c:\projects\libsmu\dist\m1k-winusbx86.cat c:\libsmu-MinGW\drivers
