@@ -169,11 +169,12 @@ build_script:
   - copy c:\projects\libsmu\mingw-32\src\libsmu.* c:\libsmu-MinGW\32
   - copy c:\projects\libsmu\mingw-32\src\cli\smu.exe c:\libsmu-MinGW\32
   - copy c:\libusb-mingw\MinGW32\static\libusb-1.0.a c:\libsmu-MinGW\32
+  - C:\msys64\usr\bin\bash -lc "cd c:/msys64/mingw32/bin ; cp -r libwinpthread-*.dll libgcc_*.dll libstdc++-*.dll c:/libsmu-MinGW"
   - 7z a "c:\libsmu-MinGW.zip" c:\libsmu-MinGW
   - appveyor PushArtifact c:\libsmu-MinGW.zip
 
 cache:
   # cache innosetup download
   - C:\Users\appveyor\AppData\Local\Temp\chocolatey
-on_finish:
-    - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_finish:
+ #   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
