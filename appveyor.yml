@@ -154,7 +154,7 @@ build_script:
 
   # libusb 64 bit MinGW
   - git clone --branch=hotplug https://github.com/analogdevicesinc/libusb.git "C:\libusb-64"
-  - C:\msys64\usr\bin\bash -lc "cd C:/libusb-64 && ./autogen.sh && ./configure --prefix=/mingw64 --build=--build= --host=x86_64-w64-mingw32 && make -j4 install"
+  - C:\msys64\usr\bin\bash -lc "cd C:/libusb-64 && ./autogen.sh && ./configure --prefix=/mingw64 --build=--build=--host=x86_64-w64-mingw32 && make -j4 install"
   #- cd C:\libusb-64\build-x64
   #- ..\configure --prefix=/mingw64 --build=--build= --host=x86_64-w64-mingw32
   #- C:\msys64\usr\bin\bash -lc "mkdir C:/libusb-64/build-x64"
