@@ -206,7 +206,7 @@ build_script:
   - "pip install --upgrade cython"
   
   # build python dist files
-  - ps: pushd C:\projects\libsmu\bindings\python
+  - cd C:\projects\libsmu\bindings\python
   - "python --version"
   - "python setup.py build_ext %PYTHON_DEBUG% --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
   - "python setup.py build %PYTHON_DEBUG% --compiler=mingw32"
