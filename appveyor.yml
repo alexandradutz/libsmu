@@ -150,8 +150,7 @@ build_script:
   # Install MinGW dependencies for 64 bit
   - C:\msys64\usr\bin\bash -lc "pacman -Rs --noconfirm mingw-w64-i686-gcc-ada mingw-w64-i686-gcc-fortran mingw-w64-i686-gcc-libgfortran mingw-w64-i686-gcc-objc"
   - C:\msys64\usr\bin\bash -lc "rm /mingw32/etc/gdbinit"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-i686-gcc mingw-w64-i686-cmake mingw-w64-i686-pkg-config mingw-w64-i686-python2-pip mingw-w64-i686-openblas"
-  #lapack
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-i686-gcc mingw-w64-i686-cmake mingw-w64-i686-pkg-config mingw-w64-i686-python2-pip mingw-w64-i686-openblas mingw-w64-i686-lapack"
   # Install MinGW dependencies for 64 bit
   #- C:\msys64\usr\bin\bash -lc "pacman -Rs --noconfirm mingw-w64-x86_64-gcc-ada mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-gcc-libgfortran mingw-w64-x86_64-gcc-objc"
   #- C:\msys64\usr\bin\bash -lc "rm /mingw64/etc/gdbinit"
@@ -207,12 +206,11 @@ build_script:
   - "pip install --upgrade cython"
   
   # build python dist files
-  - ps: pushd C:\projects\libsmu\bindings\python
-  - "python --version"
-  - "python setup.py build_ext %PYTHON_DEBUG% --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
-  - "python setup.py build %PYTHON_DEBUG% --compiler=mingw32"
-  - "python setup.py bdist_wheel --skip-build"
-  - "python setup.py bdist --skip-build --format zip"
+  - "python3 --version"
+  - "python3 setup.py build_ext %PYTHON_DEBUG% --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
+  - "python3 setup.py build %PYTHON_DEBUG% --compiler=mingw32"
+  - "python3 setup.py bdist_wheel --skip-build"
+  - "python3 setup.py bdist --skip-build --format zip"
   
   ## build 64 bit python bindings
   # update pip to keep it from complaining
