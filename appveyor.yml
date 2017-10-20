@@ -206,11 +206,11 @@ build_script:
   - "pip install --upgrade cython"
   
   # build python dist files
-  - "python3 --version"
-  - "python3 setup.py build_ext %PYTHON_DEBUG% --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
-  - "python3 setup.py build %PYTHON_DEBUG% --compiler=mingw32"
-  - "python3 setup.py bdist_wheel --skip-build"
-  - "python3 setup.py bdist --skip-build --format zip"
+  - "python --version"
+  - "python setup.py build_ext %PYTHON_DEBUG% --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
+  - "python setup.py build %PYTHON_DEBUG% --compiler=mingw32"
+  - "python setup.py bdist_wheel --skip-build"
+  - "python setup.py bdist --skip-build --format zip"
   
   ## build 64 bit python bindings
   # update pip to keep it from complaining
