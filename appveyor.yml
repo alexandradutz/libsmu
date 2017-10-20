@@ -142,14 +142,6 @@ build_script:
   #- appveyor PushArtifact C:\libsmu-setup-x86.exe
   #- appveyor PushArtifact C:\libsmu-setup-x64.exe
 
-  # libusb 64 bit MinGW
-  - C:\msys64\usr\bin\bash -lc "mkdir build-x64"
-  - C:\msys64\usr\bin\bash -e -l -c ./autogen.sh
-  - C:\msys64\usr\bin\bash -e -l -c "cd build-x64"
-  - C:\msys64\usr\bin\bash -e -l -c "build-x64/../configure --prefix=/mingw64 --build=--build= --host=x86_64-w64-mingw32"
-  - C:\msys64\usr\bin\bash -e -l -c "make -j4"
-  - C:\msys64\usr\bin\bash -e -l -c "make install"
-
   # MinGW build
   - ps: (new-object System.Net.WebClient).Downloadfile("http://swdownloads.analog.com/cse/build/libusb-1.0-hp.7z", "c:\libusb.7z")
   - 7z x -y "c:\libusb.7z" -o"C:\libusb-mingw" > nul
@@ -165,7 +157,7 @@ build_script:
   - git checkout hotplug
   - cd C:\libusb-64
   - mkdir build-x64
-  - C:\msys64\usr\bin\bash -lc ./autogen.sh
+  - C:\msys64\usr\bin\bash -lc "./autogen.sh"
   - C:\msys64\usr\bin\bash -lc "cd build-x64"
   - C:\msys64\usr\bin\bash -lc "build-x64/../configure --prefix=/mingw64 --build=--build= --host=x86_64-w64-mingw32"
   - C:\msys64\usr\bin\bash -lc "make -j4"
