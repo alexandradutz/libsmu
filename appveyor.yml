@@ -197,6 +197,46 @@ build_script:
   - C:\msys64\usr\bin\bash -lc "cd c:/msys64/mingw64/bin ; cp -r libwinpthread-*.dll libgcc_*.dll libstdc++-*.dll libgomp-*.dll c:/libsmu-MinGW-win64"
   - 7z a "c:\libsmu-MinGW-win64.zip" c:\libsmu-MinGW-win64
   - appveyor PushArtifact c:\libsmu-MinGW-win64.zip
+  
+  ## build 32 bit python bindings
+  # add python dirs to PATH
+  - set PATH=C:\\Python27;C:\\Python27\\Scripts;%PATH%
+  # check we're using the right python version and arch
+  - "python --version"
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+
+  # update pip to keep it from complaining
+  - "pip install --disable-pip-version-check --user --upgrade pip"
+  # wheel needs to be installed in order to build binary wheels for pysmu
+  - "pip install wheel"
+  
+  # build python dist files
+  - ps: pushd C:\projects\libsmu\bindings\python
+  - "python setup.py build_ext %PYTHON_DEBUG% --compiler=mingw -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
+  - "python setup.py build %PYTHON_DEBUG%"
+  - "python setup.py bdist_wheel --skip-build"
+  - "python setup.py bdist --skip-build --format zip"
+  
+  ## build 64 bit python bindings
+  # add python dirs to PATH
+  - set PATH=C:\\Python27-x64;C:\\Python27-x64\\Scripts;%PATH%
+  # check we're using the right python version and arch
+  - "python --version"
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+
+  # update pip to keep it from complaining
+  - "pip install --disable-pip-version-check --user --upgrade pip"
+  # wheel needs to be installed in order to build binary wheels for pysmu
+  - "pip install wheel"
+  
+  - "python setup.py build_ext %PYTHON_DEBUG% --compiler=mingw -L C:\\projects\\libsmu\\mingw-64\\src -I C:\\libusb-mingw64\\libusb"
+  - "python setup.py build %PYTHON_DEBUG%"
+  - "python setup.py bdist_wheel --skip-build"
+  - "python setup.py bdist --skip-build --format zip"
+  - "python setup.py sdist"
+
+  # push all dist files as artifacts
+  - ps: Get-ChildItem dist/.\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
 cache:
   # cache innosetup download
