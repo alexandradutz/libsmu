@@ -22,6 +22,8 @@ TOPDIR = os.path.dirname(os.path.dirname(BINDINGS_DIR))
 
 def pkgconfig(*packages, **kw):
     """Translate pkg-config data to compatible Extension parameters."""
+    print("============bind dir" + BINDINGS_DIR)
+    print("============top dir" + TOPDIR)
     flag_map = {'-I': 'include_dirs', '-L': 'library_dirs', '-l': 'libraries'}
 
     try:
