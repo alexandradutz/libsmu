@@ -150,11 +150,11 @@ build_script:
   # Install MinGW dependencies for 64 bit
   - C:\msys64\usr\bin\bash -lc "pacman -Rs --noconfirm mingw-w64-i686-gcc-ada mingw-w64-i686-gcc-fortran mingw-w64-i686-gcc-libgfortran mingw-w64-i686-gcc-objc"
   - C:\msys64\usr\bin\bash -lc "rm /mingw32/etc/gdbinit"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-i686-gcc mingw-w64-i686-cmake mingw-w64-i686-pkg-config"
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-i686-gcc mingw-w64-i686-cmake mingw-w64-i686-pkg-config mingw-w64-i686-python2-pip"
   # Install MinGW dependencies for 64 bit
   - C:\msys64\usr\bin\bash -lc "pacman -Rs --noconfirm mingw-w64-x86_64-gcc-ada mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-gcc-libgfortran mingw-w64-x86_64-gcc-objc"
   - C:\msys64\usr\bin\bash -lc "rm /mingw64/etc/gdbinit"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-pkg-config"
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-pkg-config mingw-w64-x86_64-python2-pip"
 
   # Get libusb hotplug for 32 bit and compile it for 64 bit
   - ps: (new-object System.Net.WebClient).Downloadfile("http://swdownloads.analog.com/cse/build/libusb-1.0-hp.7z", "c:\libusb.7z")
@@ -199,12 +199,6 @@ build_script:
   - appveyor PushArtifact c:\libsmu-MinGW-win64.zip
   
   ## build 32 bit python bindings
-  # add python dirs to PATH
-  - set PATH=C:\\Python27;C:\\Python27\\Scripts;%PATH%
-  # check we're using the right python version and arch
-  - "python --version"
-  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
-
   # update pip to keep it from complaining
   - "pip install --disable-pip-version-check --user --upgrade pip"
   # wheel needs to be installed in order to build binary wheels for pysmu
@@ -218,12 +212,6 @@ build_script:
   - "python setup.py bdist --skip-build --format zip"
   
   ## build 64 bit python bindings
-  # add python dirs to PATH
-  - set PATH=C:\\Python27-x64;C:\\Python27-x64\\Scripts;%PATH%
-  # check we're using the right python version and arch
-  - "python --version"
-  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
-
   # update pip to keep it from complaining
   - "pip install --disable-pip-version-check --user --upgrade pip"
   # wheel needs to be installed in order to build binary wheels for pysmu
