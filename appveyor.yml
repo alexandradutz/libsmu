@@ -142,6 +142,13 @@ build_script:
   #- appveyor PushArtifact C:\libsmu-setup-x86.exe
   #- appveyor PushArtifact C:\libsmu-setup-x64.exe
 
+  # libusb 64 bit MinGW
+  - C:\msys64\usr\bin\bash -lc "mkdir build-x64"
+  - C:\msys64\usr\bin\bash -e -l -c ./autogen.sh
+  - C:\msys64\usr\bin\bash -e -l -c "cd build-x64"
+  - C:\msys64\usr\bin\bash -e -l -c "build-x64/../configure --prefix=/mingw64 --build=--build= --host=x86_64-w64-mingw32"
+  - C:\msys64\usr\bin\bash -e -l -c "make -j4"
+  - C:\msys64\usr\bin\bash -e -l -c "make install"
 
   # MinGW build
   - ps: (new-object System.Net.WebClient).Downloadfile("http://swdownloads.analog.com/cse/build/libusb-1.0-hp.7z", "c:\libusb.7z")
@@ -152,6 +159,18 @@ build_script:
   - C:\msys64\usr\bin\bash -lc "pacman -Rs --noconfirm mingw-w64-i686-gcc-ada mingw-w64-i686-gcc-fortran mingw-w64-i686-gcc-libgfortran mingw-w64-i686-gcc-objc"
   - C:\msys64\usr\bin\bash -lc "rm /mingw32/etc/gdbinit"
   - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy  mingw-w64-i686-gcc mingw-w64-i686-cmake mingw-w64-i686-pkg-config"
+
+  # libusb 64 bit MinGW
+  - git clone https://github.com/analogdevicesinc/libusb.git "C:\libusb-64"
+  - git checkout hotplug
+  - cd C:\libusb-64
+  - mkdir build-x64
+  - C:\msys64\usr\bin\bash -lc ./autogen.sh
+  - C:\msys64\usr\bin\bash -lc "cd build-x64"
+  - C:\msys64\usr\bin\bash -lc "build-x64/../configure --prefix=/mingw64 --build=--build= --host=x86_64-w64-mingw32"
+  - C:\msys64\usr\bin\bash -lc "make -j4"
+  - C:\msys64\usr\bin\bash -lc "make install"
+
 
   - mkdir c:\projects\libsmu\mingw-32
   - C:\msys64\usr\bin\bash -lc "cd C:/projects/libsmu/mingw-32 && cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX=/mingw32 -DCMAKE_C_COMPILER:FILEPATH=/mingw32/bin/i686-w64-mingw32-gcc.exe -DCMAKE_CXX_COMPILER:FILEPATH=/mingw32/bin/i686-w64-mingw32-g++.exe -DLIBUSB_LIBRARIES=C:/libusb-mingw/MinGW32/static/libusb-1.0.a -DLIBUSB_INCLUDE_DIRS=C:/libusb-mingw/include/libusb-1.0 -DBoost_USE_STATIC_LIBS=ON -DBUILD_STATIC_LIB=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DBOOST_ROOT=C:/Libraries/boost_1_62_0 -DBUILD_PYTHON=OFF .. && cmake --build . --config %CONFIGURATION%"
