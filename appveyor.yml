@@ -150,17 +150,18 @@ build_script:
   # Install MinGW dependencies for 64 bit
   - C:\msys64\usr\bin\bash -lc "pacman -Rs --noconfirm mingw-w64-i686-gcc-ada mingw-w64-i686-gcc-fortran mingw-w64-i686-gcc-libgfortran mingw-w64-i686-gcc-objc"
   - C:\msys64\usr\bin\bash -lc "rm /mingw32/etc/gdbinit"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-i686-gcc mingw-w64-i686-cmake mingw-w64-i686-pkg-config mingw-w64-i686-python2-pip"
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-i686-gcc mingw-w64-i686-cmake mingw-w64-i686-pkg-config mingw-w64-i686-python2-pip mingw-w64-i686-openblas"
+  #lapack
   # Install MinGW dependencies for 64 bit
-  - C:\msys64\usr\bin\bash -lc "pacman -Rs --noconfirm mingw-w64-x86_64-gcc-ada mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-gcc-libgfortran mingw-w64-x86_64-gcc-objc"
-  - C:\msys64\usr\bin\bash -lc "rm /mingw64/etc/gdbinit"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-pkg-config mingw-w64-x86_64-python2-pip"
+  #- C:\msys64\usr\bin\bash -lc "pacman -Rs --noconfirm mingw-w64-x86_64-gcc-ada mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-gcc-libgfortran mingw-w64-x86_64-gcc-objc"
+  #- C:\msys64\usr\bin\bash -lc "rm /mingw64/etc/gdbinit"
+  #- C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-pkg-config mingw-w64-x86_64-python2-pip"
 
   # Get libusb hotplug for 32 bit and compile it for 64 bit
   - ps: (new-object System.Net.WebClient).Downloadfile("http://swdownloads.analog.com/cse/build/libusb-1.0-hp.7z", "c:\libusb.7z")
   - 7z x -y "c:\libusb.7z" -o"C:\libusb-mingw" > nul
-  - git clone --branch=hotplug https://github.com/analogdevicesinc/libusb.git "C:\libusb-mingw64"
-  - C:\msys64\usr\bin\bash -lc "cd C:/libusb-mingw64 && ./autogen.sh && ./configure --prefix=/mingw64 --build=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 && make -j4"
+  #- git clone --branch=hotplug https://github.com/analogdevicesinc/libusb.git "C:\libusb-mingw64"
+  #- C:\msys64\usr\bin\bash -lc "cd C:/libusb-mingw64 && ./autogen.sh && ./configure --prefix=/mingw64 --build=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 && make -j4"
 
   # Build libsmu MinGW 32 bit
   - echo "Running cmake for MinGW 32..."
@@ -168,9 +169,9 @@ build_script:
   - C:\msys64\usr\bin\bash -lc "cd C:/projects/libsmu/mingw-32 && cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX=/mingw32 -DCMAKE_C_COMPILER:FILEPATH=/mingw32/bin/i686-w64-mingw32-gcc.exe -DCMAKE_CXX_COMPILER:FILEPATH=/mingw32/bin/i686-w64-mingw32-g++.exe -DLIBUSB_LIBRARIES=C:/libusb-mingw/MinGW32/static/libusb-1.0.a -DLIBUSB_INCLUDE_DIRS=C:/libusb-mingw/include/libusb-1.0 -DBoost_USE_STATIC_LIBS=ON -DBUILD_STATIC_LIB=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DBOOST_ROOT=C:/Libraries/boost_1_62_0 -DBUILD_PYTHON=OFF .. && cmake --build . --config %CONFIGURATION%"
   
   # Build libsmu MinGW 64 bit
-  - echo "Running cmake for MinGW 64..."
-  - mkdir c:\projects\libsmu\mingw-64
-  - C:\msys64\usr\bin\bash -lc "cd C:/projects/libsmu/mingw-64 && cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX=/mingw64 -DCMAKE_C_COMPILER:FILEPATH=/mingw64/bin/x86_64-w64-mingw32-gcc.exe -DCMAKE_CXX_COMPILER:FILEPATH=/mingw64/bin/x86_64-w64-mingw32-g++.exe -DLIBUSB_LIBRARIES=C:/libusb-mingw64/libusb/.libs/libusb-1.0.a -DLIBUSB_INCLUDE_DIRS=C:/libusb-mingw64/libusb -DBoost_USE_STATIC_LIBS=ON -DBUILD_STATIC_LIB=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DBOOST_ROOT=C:/Libraries/boost_1_62_0 -DBUILD_PYTHON=OFF .. && cmake --build . --config %CONFIGURATION%"
+  #- echo "Running cmake for MinGW 64..."
+  #- mkdir c:\projects\libsmu\mingw-64
+  #- C:\msys64\usr\bin\bash -lc "cd C:/projects/libsmu/mingw-64 && cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX=/mingw64 -DCMAKE_C_COMPILER:FILEPATH=/mingw64/bin/x86_64-w64-mingw32-gcc.exe -DCMAKE_CXX_COMPILER:FILEPATH=/mingw64/bin/x86_64-w64-mingw32-g++.exe -DLIBUSB_LIBRARIES=C:/libusb-mingw64/libusb/.libs/libusb-1.0.a -DLIBUSB_INCLUDE_DIRS=C:/libusb-mingw64/libusb -DBoost_USE_STATIC_LIBS=ON -DBUILD_STATIC_LIB=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DBOOST_ROOT=C:/Libraries/boost_1_62_0 -DBUILD_PYTHON=OFF .. && cmake --build . --config %CONFIGURATION%"
   
   # Create libsmu zip artifact for 32 bit
   - mkdir c:\libsmu-MinGW-win32
@@ -188,15 +189,15 @@ build_script:
   # Create libsmu zip artifact for 64 bit
   - mkdir c:\libsmu-MinGW-win64
   - mkdir c:\libsmu-MinGW-win64\drivers
-  - copy c:\projects\libsmu\include\libsmu\libsmu.hpp c:\libsmu-MinGW-win64
-  - copy c:\projects\libsmu\dist\m1k-winusb.inf c:\libsmu-MinGW-win64\drivers
-  - copy c:\projects\libsmu\dist\m1k-winusbx64.cat c:\libsmu-MinGW-win64\drivers
-  - copy c:\projects\libsmu\mingw-64\src\libsmu.* c:\libsmu-MinGW-win64
-  - copy c:\projects\libsmu\mingw-64\src\cli\smu.exe c:\libsmu-MinGW-win64
-  - copy c:\libusb-mingw64\libusb\.libs\libusb-1.0.a c:\libsmu-MinGW-win64
-  - C:\msys64\usr\bin\bash -lc "cd c:/msys64/mingw64/bin ; cp -r libwinpthread-*.dll libgcc_*.dll libstdc++-*.dll libgomp-*.dll c:/libsmu-MinGW-win64"
-  - 7z a "c:\libsmu-MinGW-win64.zip" c:\libsmu-MinGW-win64
-  - appveyor PushArtifact c:\libsmu-MinGW-win64.zip
+  #- copy c:\projects\libsmu\include\libsmu\libsmu.hpp c:\libsmu-MinGW-win64
+  #- copy c:\projects\libsmu\dist\m1k-winusb.inf c:\libsmu-MinGW-win64\drivers
+  #- copy c:\projects\libsmu\dist\m1k-winusbx64.cat c:\libsmu-MinGW-win64\drivers
+  #- copy c:\projects\libsmu\mingw-64\src\libsmu.* c:\libsmu-MinGW-win64
+  #- copy c:\projects\libsmu\mingw-64\src\cli\smu.exe c:\libsmu-MinGW-win64
+  #- copy c:\libusb-mingw64\libusb\.libs\libusb-1.0.a c:\libsmu-MinGW-win64
+  #- C:\msys64\usr\bin\bash -lc "cd c:/msys64/mingw64/bin ; cp -r libwinpthread-*.dll libgcc_*.dll libstdc++-*.dll libgomp-*.dll c:/libsmu-MinGW-win64"
+  #- 7z a "c:\libsmu-MinGW-win64.zip" c:\libsmu-MinGW-win64
+  #- appveyor PushArtifact c:\libsmu-MinGW-win64.zip
   
   ## build 32 bit python bindings
   # update pip to keep it from complaining
