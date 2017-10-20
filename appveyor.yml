@@ -150,15 +150,12 @@ build_script:
   - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syu"
   - C:\msys64\usr\bin\bash -lc "pacman -Rs --noconfirm mingw-w64-i686-gcc-ada mingw-w64-i686-gcc-fortran mingw-w64-i686-gcc-libgfortran mingw-w64-i686-gcc-objc"
   - C:\msys64\usr\bin\bash -lc "rm /mingw32/etc/gdbinit"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-i686-gcc mingw-w64-i686-cmake mingw-w64-i686-pkg-config autoconf automake-wrapper"
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-i686-gcc mingw-w64-i686-cmake mingw-w64-i686-pkg-config"
 
   # libusb 64 bit MinGW
-  - git clone https://github.com/analogdevicesinc/libusb.git "C:\libusb-64"
-  - cd C:\libusb-64
-  - git checkout hotplug
-  - mkdir build-x64
+  - git clone --branch=hotplug https://github.com/analogdevicesinc/libusb.git "C:\libusb-64"
   - C:\msys64\usr\bin\bash -lc "cd C:/libusb-64 && ./autogen.sh"
-  - C:\msys64\usr\bin\bash -lc "cd build-x64"
+  - C:\msys64\usr\bin\bash -lc "mkdir C:/libusb-64/build-x64 && cd C:/libusb-64/build-x64"
   - C:\msys64\usr\bin\bash -lc "build-x64/../configure --prefix=/mingw64 --build=--build= --host=x86_64-w64-mingw32"
   - C:\msys64\usr\bin\bash -lc "make -j4"
   - C:\msys64\usr\bin\bash -lc "make install"
