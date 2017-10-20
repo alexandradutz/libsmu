@@ -203,11 +203,13 @@ build_script:
   - "pip install --disable-pip-version-check --user --upgrade pip"
   # wheel needs to be installed in order to build binary wheels for pysmu
   - "pip install --global-option build_ext --global-option --compiler=mingw32 wheel"
+  - "pip install --upgrade cython"
   
   # build python dist files
   - ps: pushd C:\projects\libsmu\bindings\python
+  - "python --version"
   - "python setup.py build_ext %PYTHON_DEBUG% --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
-  - "python setup.py build %PYTHON_DEBUG%"
+  - "python setup.py build %PYTHON_DEBUG% --compiler=mingw32"
   - "python setup.py bdist_wheel --skip-build"
   - "python setup.py bdist --skip-build --format zip"
   
@@ -216,9 +218,10 @@ build_script:
   - "pip install --disable-pip-version-check --user --upgrade pip"
   # wheel needs to be installed in order to build binary wheels for pysmu
   - "pip install wheel"
+  - "pip install --upgrade cython"
   
   - "python setup.py build_ext %PYTHON_DEBUG% --compiler=mingw64 -L C:\\projects\\libsmu\\mingw-64\\src -I C:\\libusb-mingw64\\libusb"
-  - "python setup.py build %PYTHON_DEBUG%"
+  - "python setup.py build %PYTHON_DEBUG% --compiler=mingw64"
   - "python setup.py bdist_wheel --skip-build"
   - "python setup.py bdist --skip-build --format zip"
   - "python setup.py sdist"
