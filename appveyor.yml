@@ -1,7 +1,7 @@
 os: Visual Studio 2015
 clone_depth: 1
-init:
-    - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#init:
+ #   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 environment:
     # Tell msys2 to add mingw64 to the path
@@ -203,8 +203,8 @@ build_script:
   - set HOME = C:\projects\libsmu\bindings\python
   - "pip install --disable-pip-version-check --user --upgrade pip"
   # wheel needs to be installed in order to build binary wheels for pysmu
-  - "pip install --only-binary wheel"
-  - "pip install --only-binary cython"
+  - "pip install wheel"
+  - "pip install --upgrade cython"
   
   # build python dist files
   - cd C:\projects\libsmu\bindings\python
@@ -234,5 +234,5 @@ build_script:
 cache:
   # cache innosetup download
   - C:\Users\appveyor\AppData\Local\Temp\chocolatey
-on_finish:
-    - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_finish:
+ #   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
