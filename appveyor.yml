@@ -154,14 +154,13 @@ build_script:
 
   # libusb 64 bit MinGW
   - git clone --branch=hotplug https://github.com/analogdevicesinc/libusb.git "C:\libusb-64"
-  - mkdir C:\libusb-64\build-x64
-  - C:\msys64\usr\bin\bash -lc "cd C:/libusb-64 && ./autogen.sh"
-  - cd C:\libusb-64\build-x64
-  - ..\configure --prefix=/mingw64 --build=--build= --host=x86_64-w64-mingw32
+  - C:\msys64\usr\bin\bash -lc "cd C:/libusb-64 && ./autogen.sh && ./configure --prefix=/mingw64 --build=--build= --host=x86_64-w64-mingw32 && make -j4 install"
+  #- cd C:\libusb-64\build-x64
+  #- ..\configure --prefix=/mingw64 --build=--build= --host=x86_64-w64-mingw32
   #- C:\msys64\usr\bin\bash -lc "mkdir C:/libusb-64/build-x64"
   #- C:\msys64\usr\bin\bash -lc "C:/libusb-64/build-x64/../configure --prefix=/mingw64 --build=--build= --host=x86_64-w64-mingw32"
-  - C:\msys64\usr\bin\bash -lc "make -j4"
-  - C:\msys64\usr\bin\bash -lc "make install"
+  #- C:\msys64\usr\bin\bash -lc "make -j4"
+  #- C:\msys64\usr\bin\bash -lc "make install"
 
   - mkdir c:\projects\libsmu\mingw-32
   - C:\msys64\usr\bin\bash -lc "cd C:/projects/libsmu/mingw-32 && cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX=/mingw32 -DCMAKE_C_COMPILER:FILEPATH=/mingw32/bin/i686-w64-mingw32-gcc.exe -DCMAKE_CXX_COMPILER:FILEPATH=/mingw32/bin/i686-w64-mingw32-g++.exe -DLIBUSB_LIBRARIES=C:/libusb-mingw/MinGW32/static/libusb-1.0.a -DLIBUSB_INCLUDE_DIRS=C:/libusb-mingw/include/libusb-1.0 -DBoost_USE_STATIC_LIBS=ON -DBUILD_STATIC_LIB=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DBOOST_ROOT=C:/Libraries/boost_1_62_0 -DBUILD_PYTHON=OFF .. && cmake --build . --config %CONFIGURATION%"
