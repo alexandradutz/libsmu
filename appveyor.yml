@@ -1,7 +1,7 @@
 os: Visual Studio 2015
 clone_depth: 1
-#init:
-#    - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+init:
+    - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 environment:
     # Tell msys2 to add mingw64 to the path
@@ -211,6 +211,7 @@ build_script:
   - "python setup.py build_ext %PYTHON_DEBUG% --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
   - "python setup.py build %PYTHON_DEBUG% --compiler=mingw32"
   - "python setup.py bdist_wheel --skip-build"
+  - pwd
   - "python setup.py bdist --skip-build --format zip"
   
   ## build 64 bit python bindings
@@ -233,5 +234,5 @@ build_script:
 cache:
   # cache innosetup download
   - C:\Users\appveyor\AppData\Local\Temp\chocolatey
-#on_finish:
-#    - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+on_finish:
+    - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
