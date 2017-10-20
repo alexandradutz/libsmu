@@ -154,11 +154,11 @@ build_script:
 
   # libusb 64 bit MinGW
   - git clone --branch=hotplug https://github.com/analogdevicesinc/libusb.git "C:\libusb-64"
-  - C:\msys64\usr\bin\bash -lc "cd C:/libusb-64 && ./autogen.sh"
-  - C:\msys64\usr\bin\bash -lc "mkdir C:/libusb-64/build-x64"
-  - C:\msys64\usr\bin\bash -lc "C:/libusb-64/build-x64/../configure --prefix=/mingw64 --build=--build= --host=x86_64-w64-mingw32"
-  - C:\msys64\usr\bin\bash -lc "make -j4"
-  - C:\msys64\usr\bin\bash -lc "make install"
+  - C:\msys64\usr\bin\bash -lc "cd C:/libusb-64 && ./autogen.sh && mkdir build-x64 && cd build-x64 && build-x64/../configure --prefix=/mingw64 --build=--build= --host=x86_64-w64-mingw32 && make -j4 install"
+  #- C:\msys64\usr\bin\bash -lc "mkdir C:/libusb-64/build-x64"
+  #- C:\msys64\usr\bin\bash -lc "C:/libusb-64/build-x64/../configure --prefix=/mingw64 --build=--build= --host=x86_64-w64-mingw32"
+  #- C:\msys64\usr\bin\bash -lc "make -j4"
+  #- C:\msys64\usr\bin\bash -lc "make install"
 
 
   - mkdir c:\projects\libsmu\mingw-32
