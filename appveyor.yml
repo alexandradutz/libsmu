@@ -150,12 +150,12 @@ build_script:
   - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syu"
   - C:\msys64\usr\bin\bash -lc "pacman -Rs --noconfirm mingw-w64-i686-gcc-ada mingw-w64-i686-gcc-fortran mingw-w64-i686-gcc-libgfortran mingw-w64-i686-gcc-objc"
   - C:\msys64\usr\bin\bash -lc "rm /mingw32/etc/gdbinit"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy  mingw-w64-i686-gcc mingw-w64-i686-cmake mingw-w64-i686-pkg-config"
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-i686-gcc mingw-w64-i686-cmake mingw-w64-i686-pkg-config autoconf"
 
   # libusb 64 bit MinGW
   - git clone https://github.com/analogdevicesinc/libusb.git "C:\libusb-64"
-  - git checkout hotplug
   - cd C:\libusb-64
+  - git checkout hotplug
   - mkdir build-x64
   - C:\msys64\usr\bin\bash -lc "./autogen.sh"
   - C:\msys64\usr\bin\bash -lc "cd build-x64"
