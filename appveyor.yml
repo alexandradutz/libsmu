@@ -358,30 +358,30 @@ build_script:
   - C:\msys64\usr\bin\bash -lc "cd C:/projects/libsmu/mingw-64 && cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX=/mingw64 -DCMAKE_C_COMPILER:FILEPATH=/mingw64/bin/x86_64-w64-mingw32-gcc.exe -DCMAKE_CXX_COMPILER:FILEPATH=/mingw64/bin/x86_64-w64-mingw32-g++.exe -DLIBUSB_LIBRARIES=C:/libusb-mingw64/libusb/.libs/libusb-1.0.a -DLIBUSB_INCLUDE_DIRS=C:/libusb-mingw64/libusb -DBoost_USE_STATIC_LIBS=ON -DBUILD_STATIC_LIB=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DBOOST_ROOT=C:/Libraries/boost_1_62_0 -DBUILD_PYTHON=OFF .. && cmake --build . --config %CONFIGURATION%"
 
   # Create libsmu zip artifact for 32 bit
-  - mkdir c:\libsmu-MinGW-win32
-  - mkdir c:\libsmu-MinGW-win32\drivers
-  - copy c:\projects\libsmu\include\libsmu\libsmu.hpp c:\libsmu-MinGW-win32
-  - copy c:\projects\libsmu\dist\m1k-winusb.inf c:\libsmu-MinGW-win32\drivers
-  - copy c:\projects\libsmu\dist\m1k-winusbx86.cat c:\libsmu-MinGW-win32\drivers
-  - copy c:\projects\libsmu\mingw-32\src\libsmu.* c:\libsmu-MinGW-win32
-  - copy c:\projects\libsmu\mingw-32\src\cli\smu.exe c:\libsmu-MinGW-win32
-  - copy c:\libusb-mingw\MinGW32\static\libusb-1.0.a c:\libsmu-MinGW-win32
-  - C:\msys64\usr\bin\bash -lc "cd c:/msys64/mingw32/bin ; cp -r libwinpthread-*.dll libgcc_*.dll libstdc++-*.dll libgomp-*.dll c:/libsmu-MinGW-win32"
-  - 7z a "c:\libsmu-MinGW-win32.zip" c:\libsmu-MinGW-win32
+  - mkdir c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
+  - mkdir c:\libsmu-%LIBSMU_VERSION%-MinGW-win32\drivers
+  - copy c:\projects\libsmu\include\libsmu\libsmu.hpp c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
+  - copy c:\projects\libsmu\dist\m1k-winusb.inf c:\libsmu-%LIBSMU_VERSION%-MinGW-win32\drivers
+  - copy c:\projects\libsmu\dist\m1k-winusbx86.cat c:\libsmu-%LIBSMU_VERSION%-MinGW-win32\drivers
+  - copy c:\projects\libsmu\mingw-32\src\libsmu.* c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
+  - copy c:\projects\libsmu\mingw-32\src\cli\smu.exe c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
+  - copy c:\libusb-mingw\MinGW32\static\libusb-1.0.a c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
+  - C:\msys64\usr\bin\bash -lc "cd c:/msys64/mingw32/bin ; cp -r libwinpthread-*.dll libgcc_*.dll libstdc++-*.dll libgomp-*.dll c:/libsmu-%LIBSMU_VERSION%-MinGW-win32"
+  - 7z a "c:\libsmu-%LIBSMU_VERSION%-MinGW-win32.zip" c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
   - appveyor PushArtifact c:\libsmu-MinGW-win32.zip
 
   # Create libsmu zip artifact for 64 bit
-  - mkdir c:\libsmu-MinGW-win64
-  - mkdir c:\libsmu-MinGW-win64\drivers
-  - copy c:\projects\libsmu\include\libsmu\libsmu.hpp c:\libsmu-MinGW-win64
-  - copy c:\projects\libsmu\dist\m1k-winusb.inf c:\libsmu-MinGW-win64\drivers
-  - copy c:\projects\libsmu\dist\m1k-winusbx64.cat c:\libsmu-MinGW-win64\drivers
-  - copy c:\projects\libsmu\mingw-64\src\libsmu.* c:\libsmu-MinGW-win64
-  - copy c:\projects\libsmu\mingw-64\src\cli\smu.exe c:\libsmu-MinGW-win64
-  - copy c:\libusb-mingw64\libusb\.libs\libusb-1.0.a c:\libsmu-MinGW-win64
-  - C:\msys64\usr\bin\bash -lc "cd c:/msys64/mingw64/bin ; cp -r libwinpthread-*.dll libgcc_*.dll libstdc++-*.dll libgomp-*.dll c:/libsmu-MinGW-win64"
-  - 7z a "c:\libsmu-MinGW-win64.zip" c:\libsmu-MinGW-win64
-  - appveyor PushArtifact c:\libsmu-MinGW-win64.zip
+  - mkdir c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
+  - mkdir c:\libsmu-%LIBSMU_VERSION%-MinGW-win64\drivers
+  - copy c:\projects\libsmu\include\libsmu\libsmu.hpp c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
+  - copy c:\projects\libsmu\dist\m1k-winusb.inf c:\libsmu-%LIBSMU_VERSION%-MinGW-win64\drivers
+  - copy c:\projects\libsmu\dist\m1k-winusbx64.cat c:\libsmu-%LIBSMU_VERSION%-MinGW-win64\drivers
+  - copy c:\projects\libsmu\mingw-64\src\libsmu.* c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
+  - copy c:\projects\libsmu\mingw-64\src\cli\smu.exe c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
+  - copy c:\libusb-mingw64\libusb\.libs\libusb-1.0.a c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
+  - C:\msys64\usr\bin\bash -lc "cd c:/msys64/mingw64/bin ; cp -r libwinpthread-*.dll libgcc_*.dll libstdc++-*.dll libgomp-*.dll c:/libsmu-%LIBSMU_VERSION%-MinGW-win64"
+  - 7z a "c:\libsmu-%LIBSMU_VERSION%-MinGW-win64.zip" c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
+  - appveyor PushArtifact c:\libsmu-%LIBSMU_VERSION%-MinGW-win64.zip
 
 cache:
   # cache innosetup download
