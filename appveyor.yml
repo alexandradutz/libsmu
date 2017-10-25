@@ -386,8 +386,8 @@ build_script:
   - appveyor PushArtifact c:\libsmu-%LIBSMU_VERSION%-MinGW-win64.zip
   
   #Prepare for python bindings
-  - echo "[build]\ncompiler=mingw32\n\n[build_ext]\ncompiler=mingw32" >> c:\msys64\mingw32\lib\python2.7\distutils\distutils.cfg
-  - echo -e "[build]\ncompiler=mingw32\n\n[build_ext]\ncompiler=mingw32" >> c:\msys64\mingw32\lib\python3.6\distutils\distutils.cfg
+  - echo "[build]`ncompiler=mingw32`n`n[build_ext]`ncompiler=mingw32" >> c:\msys64\mingw32\lib\python2.7\distutils\distutils.cfg
+  - echo "[build]`ncompiler=mingw32`n`n[build_ext]`ncompiler=mingw32" >> c:\msys64\mingw32\lib\python3.6\distutils\distutils.cfg
 
   - mkdir C:\projects\libsmu-python  
   - set HOME = C:\projects\libsmu\bindings\python
