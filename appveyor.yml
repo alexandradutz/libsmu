@@ -126,7 +126,7 @@ build_script:
   - copy "C:\\Program Files (x86)\\Windows Kits\\10\\Redist\\ucrt\DLLs\\x64\\*" c:\libsmu\64
   - 7z a "c:\libsmu-%LIBSMU_VERSION%.zip" c:\libsmu
   - appveyor PushArtifact c:\libsmu-%LIBSMU_VERSION%.zip
-
+ 
   # build 32 and 64 bit pysmu modules for all supported python versions, currently 2.7, 3.4, and 3.5
   # TODO: drop the duplication and loop over supported python versions
   - mkdir c:\libsmu-python
@@ -325,7 +325,7 @@ build_script:
   - ren C:\libsmu-setup-x64.exe libsmu-%LIBSMU_VERSION%-setup-x64.exe
   - appveyor PushArtifact C:\libsmu-%LIBSMU_VERSION%-setup-x86.exe
   - appveyor PushArtifact C:\libsmu-%LIBSMU_VERSION%-setup-x64.exe
-
+ 
   ##### MinGW build
   - set OPT_PATH=C:\msys64\mingw32\bin;C:\msys64\mingw64\bin;
   - set PATH=%OPT_PATH%%PATH%
@@ -368,7 +368,7 @@ build_script:
   - copy c:\libusb-mingw\MinGW32\static\libusb-1.0.a c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
   - C:\msys64\usr\bin\bash -lc "cd c:/msys64/mingw32/bin ; cp -r libwinpthread-*.dll libgcc_*.dll libstdc++-*.dll libgomp-*.dll c:/libsmu-%LIBSMU_VERSION%-MinGW-win32"
   - 7z a "c:\libsmu-%LIBSMU_VERSION%-MinGW-win32.zip" c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
-  - appveyor PushArtifact c:\libsmu-MinGW-win32.zip
+  - appveyor PushArtifact c:\libsmu-%LIBSMU_VERSION%-MinGW-win32.zip
 
   # Create libsmu zip artifact for 64 bit
   - mkdir c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
