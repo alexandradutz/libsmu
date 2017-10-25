@@ -1,5 +1,7 @@
 os: Visual Studio 2015
 clone_depth: 1
+init:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 environment:
     MSYSTEM: MINGW64
@@ -384,7 +386,7 @@ build_script:
   - appveyor PushArtifact c:\libsmu-%LIBSMU_VERSION%-MinGW-win64.zip
   
   #Prepare for python bindings
-  - echo -e "[build]\ncompiler=mingw32\n\n[build_ext]\ncompiler=mingw32" >> c:\msys64\mingw32\lib\python2.7\distutils\distutils.cfg
+  - echo "[build]\ncompiler=mingw32\n\n[build_ext]\ncompiler=mingw32" >> c:\msys64\mingw32\lib\python2.7\distutils\distutils.cfg
   - echo -e "[build]\ncompiler=mingw32\n\n[build_ext]\ncompiler=mingw32" >> c:\msys64\mingw32\lib\python3.6\distutils\distutils.cfg
 
   - mkdir C:\projects\libsmu-python  
@@ -440,3 +442,5 @@ build_script:
 cache:
   # cache innosetup download
   - C:\Users\appveyor\AppData\Local\Temp\chocolatey
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
