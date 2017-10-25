@@ -396,7 +396,7 @@ build_script:
   # wheel needs to be installed in order to build binary wheels for pysmu
   - "pip2 install --only-binary :all: wheel"
   # cython is required for generating the extensions
-  - "pip2 install --only-binary :all: cython"
+  - "pip2 install --only-binary cython"
   
   # build python dist files
   - cd C:\projects\libsmu\bindings\python
@@ -413,7 +413,7 @@ build_script:
   # wheel needs to be installed in order to build binary wheels for pysmu
   - "pip3 install --only-binary :all: wheel"
   # cython is required for generating the extensions
-  - "pip3 install --only-binary :all: cython"
+  - "pip3 install --only-binary cython"
   - "pip3 install pyreadline"
   
   # build python dist files
