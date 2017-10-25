@@ -404,7 +404,7 @@ build_script:
   - "python2 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
   - "python2 setup.py build"
   - "python2 setup.py bdist_wheel --skip-build"
-  - "python2 setup.py bdist --skip-build --root=C:/projects --format zip"
+  - "python2 setup.py bdist --bdist-base C:\\ --skip-build --format zip"
   # test local install
   - ps: Get-ChildItem dist/*-cp27-*-win32.whl | % { pip install "$_" }
   
@@ -422,7 +422,7 @@ build_script:
   - "python3 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
   - "python3 setup.py build"
   - "python3 setup.py bdist_wheel --skip-build"
-  - "python3 setup.py bdist --skip-build --format zip"
+  - "python3 setup.py bdist --bdist-base C:\\ --skip-build --format zip"
   - "python3 setup.py sdist"
   
     # test local install
