@@ -425,7 +425,7 @@ build_script:
   #- rm build -r -f
   - "python2 --version"
   - "python2 setup.py build_ext --compiler=mingw32 --inplace -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
-  - "python2 setup.py build --compiler=mingw32"
+  #- "python2 setup.py build --compiler=mingw32"
   #- "python2 setup.py bdist_wheel --skip-build"
   - ls
   - "python2 setup.py bdist --skip-build --format zip"
