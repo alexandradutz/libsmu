@@ -421,11 +421,9 @@ build_script:
   # build python dist files
   - cd C:\projects\libsmu\bindings\python
   - ls
-  #- rm C:\build -r -f
-  #- rm build -r -f
   - "python2 --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
-  - "python2 setup.py build_ext --compiler=mingw32 --inplace -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
+  - "python2 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
   - "python2 setup.py build"
   #- "python2 setup.py bdist_wheel --skip-build"
   - ls
