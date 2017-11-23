@@ -424,11 +424,11 @@ build_script:
   #- rm C:\build -r -f
   #- rm build -r -f
   - "python2 --version"
-  - "python2 C:\projects\libsmu\bindings\python\setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
-  - "python2 C:\projects\libsmu\bindings\python\setup.py build"
-  - "python2 C:\projects\libsmu\bindings\python\setup.py bdist_wheel --skip-build"
+  - "python2 C:\\projects\\libsmu\bindings\\python\\setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
+  - "python2 C:\\projects\libsmu\\bindings\\python\\setup.py build"
+  - "python2 C:\\projects\\libsmu\\bindings\\python\setup.py bdist_wheel --skip-build"
   - ls
-  - "python2 C:\projects\libsmu\bindings\python\setup.py bdist --skip-build --format zip"
+  - "python2 C:\\projects\\libsmu\\bindings\\python\\setup.py bdist --skip-build --format zip"
   # test local install
   - ps: Get-ChildItem dist/*-cp27-*-win32.whl | % { pip install "$_" }
   
