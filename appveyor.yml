@@ -424,10 +424,12 @@ build_script:
   #- rm C:\build -r -f
   #- rm build -r -f
   - "python2 --version"
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - "python2 setup.py build_ext --compiler=mingw32 --inplace -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
-  #- "python2 setup.py build --compiler=mingw32"
+  - "python2 setup.py build"
   #- "python2 setup.py bdist_wheel --skip-build"
   - ls
+  - ls build/
   - "python2 setup.py bdist --skip-build --format zip"
   # test local install
   - ps: Get-ChildItem dist/*-cp27-*-win32.whl | % { pip install "$_" }
