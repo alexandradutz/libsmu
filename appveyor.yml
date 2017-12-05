@@ -108,6 +108,7 @@ build_script:
   - echo [build] compiler=mingw32 [build_ext] compiler=mingw32 >> c:\msys64\mingw32\lib\python2.7\distutils\distutils.cfg
   - echo [build] compiler=mingw32 [build_ext] compiler=mingw32 >> c:\msys64\mingw32\lib\python3.6\distutils\distutils.cfg
 
+  #- set PATH=C:\\msys64\\mingw32\\lib\\python2.7;C:\\msys64\\mingw32\\lib\\python2.7\\Tools\\scripts;%PATH%
   - mkdir C:\projects\libsmu-python  
   - set HOME = C:\projects\libsmu\bindings\python
   # update pip to keep it from complaining
@@ -126,7 +127,7 @@ build_script:
   - "python2 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
   - "python2 setup.py build"
   - "python2 setup.py bdist_wheel --skip-build"
-  - "python3 setup.py bdist --skip-build --format zip"
+  - "python2 setup.py bdist --skip-build --format zip"
   - ls
   - ls build/
   # test local install
