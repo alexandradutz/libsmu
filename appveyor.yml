@@ -122,8 +122,8 @@ build_script:
   - "python3 --version"
   - "python3 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
   - "python3 setup.py build"
-  #- "python3 setup.py bdist_wheel --skip-build"
-  - "python3 setup.py bdist_dumb --skip-build"
+  - "python3 setup.py bdist_wheel --skip-build"
+  - "python3 setup.py bdist --skip-build --verbose --formats=zip --dest-dir=C:\\projects\\libsmu\\bindings\\python"
   - ls build
   - "python3 setup.py sdist"
   
