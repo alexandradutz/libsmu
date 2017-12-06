@@ -1,5 +1,7 @@
 os: Visual Studio 2015
 clone_depth: 1
+init:
+    - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 environment:
     MSYSTEM: MINGW64
@@ -118,12 +120,14 @@ build_script:
   - C:\msys64\usr\bin\bash -lc "rm -rf build"
   
   # build python dist files
+  - set PATH=C:\\msys64\\mingw32\\lib\\python3.6;C:\\msys64\\mingw32\\lib\\python3.6\\Tools\\scripts;%PATH%
   - cd C:\projects\libsmu\bindings\python
   - "python3 --version"
   - "python3 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
-  - "python3 setup.py build"
+  - "python3 setup.py build --compiler=mingw32"
   - "python3 setup.py bdist_wheel --skip-build"
-  - "python3 setup.py bdist --skip-build --verbose --formats=zip --dist-dir=C:\\projects\\libsmu\\bindings\\python"
+  - C:\msys64\usr\bin\bash -lc "find . | grep .whl"
+  - "python3 setup.py bdist --skip-build --formats=zip"
   - ls build
   - "python3 setup.py sdist"
   
@@ -186,3 +190,5 @@ cache:
   # cache innosetup download
   - C:\Users\appveyor\AppData\Local\Temp\chocolatey
   
+on_finish:
+    - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
