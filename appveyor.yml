@@ -105,7 +105,7 @@ build_script:
   
   #============================================================================================================
    #Prepare for python bindings
-  - echo [build] compiler=mingw32 [build_ext] compiler=mingw32 >> c:\msys64\mingw32\lib\python2.7\distutils\distutils.cfg
+  #- echo [build] compiler=mingw32 [build_ext] compiler=mingw32 >> c:\msys64\mingw32\lib\python2.7\distutils\distutils.cfg
   - echo [build] compiler=mingw32 [build_ext] compiler=mingw32 >> c:\msys64\mingw32\lib\python3.6\distutils\distutils.cfg
 
   # update pip to keep it from complaining
@@ -115,14 +115,21 @@ build_script:
   # cython is required for generating the extensions
   - "pip3 install cython"
   - "pip3 install pyreadline"
+  - C:\msys64\usr\bin\bash -lc "rm -rf build"
   
   # build python dist files
   - cd C:\projects\libsmu\bindings\python
   - "python3 --version"
   - "python3 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
+  - ls
   - "python3 setup.py build"
+  - ls
+  - ls build
   - "python3 setup.py bdist_wheel --skip-build"
+  - ls
+  - ls build
   - "python3 setup.py bdist --skip-build --format zip"
+  - ls build
   - "python3 setup.py sdist"
   
   #- set PATH=C:\\msys64\\mingw32\\lib\\python2.7;C:\\msys64\\mingw32\\lib\\python2.7\\Tools\\scripts;%PATH%
