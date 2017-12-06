@@ -35,11 +35,11 @@ build_script:
   # Install MinGW dependencies for 32 bit
   - C:\msys64\usr\bin\bash -lc "pacman -Rs --noconfirm mingw-w64-i686-gcc-ada mingw-w64-i686-gcc-fortran mingw-w64-i686-gcc-libgfortran mingw-w64-i686-gcc-objc"
   - C:\msys64\usr\bin\bash -lc "rm /mingw32/etc/gdbinit"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-i686-gcc mingw-w64-i686-cmake mingw-w64-i686-pkg-config mingw-w64-i686-python2-pip mingw-w64-i686-openblas mingw-w64-i686-lapack mingw-w64-i686-python3 mingw-w64-i686-python3-pip mingw-w64-i686-python3-setuptools mingw-w64-i686-python2-setuptools mingw-w64-i686-binutils"
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-i686-gcc mingw-w64-i686-cmake mingw-w64-i686-pkg-config mingw-w64-i686-python2-pip mingw-w64-i686-cython mingw-w64-i686-cython2 mingw-w64-i686-openblas mingw-w64-i686-lapack mingw-w64-i686-python3 mingw-w64-i686-python3-pip mingw-w64-i686-python3-setuptools mingw-w64-i686-python2-setuptools mingw-w64-i686-binutils"
   # Install MinGW dependencies for 64 bit
   - C:\msys64\usr\bin\bash -lc "pacman -Rs --noconfirm mingw-w64-x86_64-gcc-ada mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-gcc-libgfortran mingw-w64-x86_64-gcc-objc"
   - C:\msys64\usr\bin\bash -lc "rm /mingw64/etc/gdbinit"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-pkg-config mingw-w64-x86_64-python2-pip mingw-w64-x86_64-openblas mingw-w64-x86_64-lapack mingw-w64-x86_64-python3 mingw-w64-x86_64-python3-pip mingw-w64-x86_64-python3-setuptools mingw-w64-x86_64-python2-setuptools mingw-w64-x86_64-binutils"
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-pkg-config mingw-w64-x86_64-python2-pip mingw-w64-x86_64-cython mingw-w64-x86_64-cython2 mingw-w64-x86_64-openblas mingw-w64-x86_64-lapack mingw-w64-x86_64-python3 mingw-w64-x86_64-python3-pip mingw-w64-x86_64-python3-setuptools mingw-w64-x86_64-python2-setuptools mingw-w64-x86_64-binutils"
 
   # Get libusb hotplug for 32 bit
   - ps: (new-object System.Net.WebClient).Downloadfile("http://swdownloads.analog.com/cse/build/libusb-1.0-hp.7z", "c:\libusb.7z")
@@ -113,7 +113,7 @@ build_script:
   # wheel needs to be installed in order to build binary wheels for pysmu
   - "pip3 install --only-binary :all: wheel"
   # cython is required for generating the extensions
-  - "pip3 install cython"
+  #- "pip3 install cython"
   - "pip3 install pyreadline"
   - C:\msys64\usr\bin\bash -lc "rm -rf build"
   
@@ -140,7 +140,7 @@ build_script:
   # wheel needs to be installed in order to build binary wheels for pysmu
   - "pip2 install --only-binary :all: wheel"
   # cython is required for generating the extensions
-  - "pip2 install cython"
+  #- "pip2 install cython"
   
   # build python dist files
   - cd C:\projects\libsmu\bindings\python
@@ -151,7 +151,7 @@ build_script:
   - "python2 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
   - "python2 setup.py build"
   - "python2 setup.py bdist_wheel --skip-build"
-  - "python2 setup.py bdist --skip-build --format zip"
+  - "python2 setup.py bdist --skip-build --format=zip"
   - ls
   - ls build/
   # test local install
