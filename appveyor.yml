@@ -128,7 +128,7 @@ build_script:
   - "python3 setup.py bdist_wheel --skip-build"
   - ls
   - ls build
-  - "python3 setup.py bdist --skip-build"
+  - "python3 setup.py bdist_wheel --skip-build"
   - ls build
   - "python3 setup.py sdist"
   
