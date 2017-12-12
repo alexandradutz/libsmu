@@ -128,6 +128,9 @@ build_script:
   - "python3 setup.py build --compiler=mingw32"
   - "python3 setup.py bdist_wheel --skip-build"
   - "python3 setup.py bdist --skip-build --formats=msi"
+  - "python3 setup.py bdist --skip-build --formats=wininst"
+  - "python3 setup.py bdist_wininst"
+  - "python3 setup.py bdist --skip-build --formats=tar"
   - "python3 setup.py bdist --skip-build --formats=zip"
   - ls build
   - "python3 setup.py sdist"
