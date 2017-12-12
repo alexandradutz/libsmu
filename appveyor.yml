@@ -128,11 +128,11 @@ build_script:
   - "python3 setup.py build --compiler=mingw32"
   - "python3 setup.py bdist_wheel --skip-build"
   - "python3 setup.py bdist --skip-build --formats=msi"
-  - "python3 setup.py bdist --skip-build --formats=wininst"
-  - "python3 setup.py bdist_wininst"
-  - "python3 setup.py bdist --skip-build --formats=tar"
-  - "python3 setup.py bdist --skip-build --formats=zip"
-  - ls build
+  #- "python3 setup.py bdist --skip-build --formats=wininst"
+  #- "python3 setup.py bdist_wininst"
+  #- "python3 setup.py bdist --skip-build --formats=tar"
+  #- "python3 setup.py bdist --skip-build --formats=zip"
+  #- ls build
   - "python3 setup.py sdist"
   
   #- set PATH=C:\\msys64\\mingw32\\lib\\python2.7;C:\\msys64\\mingw32\\lib\\python2.7\\Tools\\scripts;%PATH%
@@ -156,9 +156,8 @@ build_script:
   - "python2 setup.py build"
   - "python2 setup.py bdist_wheel --skip-build"
   - "python2 setup.py bdist --skip-build --format=msi"
-  - "python2 setup.py bdist --skip-build --format zip"
+  #- "python2 setup.py bdist --skip-build --format zip"
   - ls
-  - ls build/
   # test local install
   - ps: Get-ChildItem dist/*-cp27-*-win32.whl | % { pip install "$_" }
   
