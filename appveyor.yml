@@ -170,11 +170,11 @@ build_script:
   - "python3 --version"
   - "python3 -c \"import struct; print(struct.calcsize('P') * 8)\""
   # update pip to keep it from complaining
-  - "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
+  #- "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
   # wheel needs to be installed in order to build binary wheels for pysmu
-  - "pip3 install --only-binary :all: wheel"
+  #- "pip3 install --only-binary :all: wheel"
   # cython is required for generating the extensions
-  - "pip3 install cython"
+  #- "pip3 install cython"
   
   # build python dist files
   - cd C:\projects\libsmu\bindings\python
@@ -195,11 +195,11 @@ build_script:
   - "python3 --version"
   - "python3 -c \"import struct; print(struct.calcsize('P') * 8)\""
   # update pip to keep it from complaining
-  - "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
+  #- "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
   # wheel needs to be installed in order to build binary wheels for pysmu
-  - "pip3 install --only-binary :all: wheel"
+  #- "pip3 install --only-binary :all: wheel"
   # cython is required for generating the extensions
-  - "pip3 install cython"
+  #- "pip3 install cython"
   
   # build python dist files
   - cd C:\projects\libsmu\bindings\python
@@ -267,11 +267,11 @@ build_script:
   - "python3 --version"
   - "python3 -c \"import struct; print(struct.calcsize('P') * 8)\""
   # update pip to keep it from complaining
-  - "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
+  #- "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
   # wheel needs to be installed in order to build binary wheels for pysmu
-  - "pip3 install --only-binary :all: wheel"
+  #- "pip3 install --only-binary :all: wheel"
   # cython is required for generating the extensions
-  - "pip3 install cython"
+  #- "pip3 install cython"
   
   # build python dist files
   - cd C:\projects\libsmu\bindings\python
@@ -292,11 +292,11 @@ build_script:
   - "python3 --version"
   - "python3 -c \"import struct; print(struct.calcsize('P') * 8)\""
   # update pip to keep it from complaining
-  - "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
+  #- "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
   # wheel needs to be installed in order to build binary wheels for pysmu
-  - "pip3 install --only-binary :all: wheel"
+  #- "pip3 install --only-binary :all: wheel"
   # cython is required for generating the extensions
-  - "pip3 install cython"
+  #- "pip3 install cython"
   
   # build python dist files
   - cd C:\projects\libsmu\bindings\python
