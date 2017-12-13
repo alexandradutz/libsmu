@@ -1,7 +1,5 @@
 os: Visual Studio 2015
 clone_depth: 1
-init:
-    - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 environment:
     MSYSTEM: MINGW64
@@ -29,6 +27,7 @@ install:
   - set PATH=%PATH%;"C:\Program Files (x86)\Inno Setup 5"
 
 build_script:
+
   ##### MinGW build
   - set OPT_PATH=C:\msys64\mingw32\bin;C:\msys64\mingw64\bin;
   - set PATH=%OPT_PATH%%PATH%
@@ -37,11 +36,11 @@ build_script:
   # Install MinGW dependencies for 32 bit
   - C:\msys64\usr\bin\bash -lc "pacman -Rs --noconfirm mingw-w64-i686-gcc-ada mingw-w64-i686-gcc-fortran mingw-w64-i686-gcc-libgfortran mingw-w64-i686-gcc-objc"
   - C:\msys64\usr\bin\bash -lc "rm /mingw32/etc/gdbinit"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-i686-gcc mingw-w64-i686-zziplib mingw-w64-i686-bzip2 mingw-w64-i686-cmake mingw-w64-i686-pkg-config mingw-w64-i686-python2-pip mingw-w64-i686-cython mingw-w64-i686-cython2 mingw-w64-i686-openblas mingw-w64-i686-lapack mingw-w64-i686-python3 mingw-w64-i686-python3-pip mingw-w64-i686-python3-setuptools mingw-w64-i686-python2-setuptools mingw-w64-i686-binutils"
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-i686-gcc mingw-w64-i686-cmake mingw-w64-i686-pkg-config mingw-w64-i686-python2-pip mingw-w64-i686-openblas mingw-w64-i686-lapack mingw-w64-i686-binutils"
   # Install MinGW dependencies for 64 bit
   - C:\msys64\usr\bin\bash -lc "pacman -Rs --noconfirm mingw-w64-x86_64-gcc-ada mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-gcc-libgfortran mingw-w64-x86_64-gcc-objc"
   - C:\msys64\usr\bin\bash -lc "rm /mingw64/etc/gdbinit"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-x86_64-gcc mingw-w64-x86_64-zziplib mingw-w64-x86_64-bzip2 mingw-w64-x86_64-cmake mingw-w64-x86_64-pkg-config mingw-w64-x86_64-python2-pip mingw-w64-x86_64-cython mingw-w64-x86_64-cython2 mingw-w64-x86_64-openblas mingw-w64-x86_64-lapack mingw-w64-x86_64-python3 mingw-w64-x86_64-python3-pip mingw-w64-x86_64-python3-setuptools mingw-w64-x86_64-python2-setuptools mingw-w64-x86_64-binutils"
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-pkg-config mingw-w64-x86_64-python2-pip mingw-w64-x86_64-openblas mingw-w64-x86_64-lapack mingw-w64-x86_64-binutils"
 
   # Get libusb hotplug for 32 bit
   - ps: (new-object System.Net.WebClient).Downloadfile("http://swdownloads.analog.com/cse/build/libusb-1.0-hp.7z", "c:\libusb.7z")
@@ -53,12 +52,12 @@ build_script:
   # Build libsmu MinGW 32 bit
   - echo "Running cmake for MinGW 32..."
   - mkdir c:\projects\libsmu\mingw-32
-  - C:\msys64\usr\bin\bash -lc "cd C:/projects/libsmu/mingw-32 && cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX=/mingw32 -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_C_COMPILER:FILEPATH=/mingw32/bin/i686-w64-mingw32-gcc.exe -DCMAKE_CXX_COMPILER:FILEPATH=/mingw32/bin/i686-w64-mingw32-g++.exe -DLIBUSB_LIBRARIES=C:/libusb-mingw/MinGW32/static/libusb-1.0.a -DLIBUSB_INCLUDE_DIRS=C:/libusb-mingw/include/libusb-1.0 -DBoost_USE_STATIC_LIBS=ON -DBUILD_STATIC_LIB=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DBOOST_ROOT=C:/Libraries/boost_1_62_0 -DBUILD_PYTHON=OFF .. && cmake --build . --config %CONFIGURATION%"
+  - C:\msys64\usr\bin\bash -lc "cd C:/projects/libsmu/mingw-32 && cmake -G 'MSYS Makefiles' -DCMAKE_INSTALL_PREFIX=/mingw32 -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_C_COMPILER:FILEPATH=/mingw32/bin/i686-w64-mingw32-gcc.exe -DCMAKE_CXX_COMPILER:FILEPATH=/mingw32/bin/i686-w64-mingw32-g++.exe -DLIBUSB_LIBRARIES=C:/libusb-mingw/MinGW32/static/libusb-1.0.a -DLIBUSB_INCLUDE_DIRS=C:/libusb-mingw/include/libusb-1.0 -DBoost_USE_STATIC_LIBS=ON -DBUILD_STATIC_LIB=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DBOOST_ROOT=C:/Libraries/boost_1_62_0 -DBUILD_PYTHON=OFF .. && cmake --build . --config %CONFIGURATION%"
 
   # Build libsmu MinGW 64 bit
   - echo "Running cmake for MinGW 64..."
   - mkdir c:\projects\libsmu\mingw-64
-  - C:\msys64\usr\bin\bash -lc "cd C:/projects/libsmu/mingw-64 && cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX=/mingw64 -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_C_COMPILER:FILEPATH=/mingw64/bin/x86_64-w64-mingw32-gcc.exe -DCMAKE_CXX_COMPILER:FILEPATH=/mingw64/bin/x86_64-w64-mingw32-g++.exe -DLIBUSB_LIBRARIES=C:/libusb-mingw64/libusb/.libs/libusb-1.0.a -DLIBUSB_INCLUDE_DIRS=C:/libusb-mingw64/libusb -DBoost_USE_STATIC_LIBS=ON -DBUILD_STATIC_LIB=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DBOOST_ROOT=C:/Libraries/boost_1_62_0 -DBUILD_PYTHON=OFF .. && cmake --build . --config %CONFIGURATION%"
+  - C:\msys64\usr\bin\bash -lc "cd C:/projects/libsmu/mingw-64 && cmake -G 'MSYS Makefiles' -DCMAKE_INSTALL_PREFIX=/mingw64 -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_C_COMPILER:FILEPATH=/mingw64/bin/x86_64-w64-mingw32-gcc.exe -DCMAKE_CXX_COMPILER:FILEPATH=/mingw64/bin/x86_64-w64-mingw32-g++.exe -DLIBUSB_LIBRARIES=C:/libusb-mingw64/libusb/.libs/libusb-1.0.a -DLIBUSB_INCLUDE_DIRS=C:/libusb-mingw64/libusb -DBoost_USE_STATIC_LIBS=ON -DBUILD_STATIC_LIB=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=ON -DBOOST_ROOT=C:/Libraries/boost_1_62_0 -DBUILD_PYTHON=OFF .. && cmake --build . --config %CONFIGURATION%"
 
   # Create libsmu zip artifact for 32 bit
   - mkdir c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
@@ -105,75 +104,116 @@ build_script:
   - appveyor PushArtifact c:\libsmu-%LIBSMU_VERSION%-MinGW-win64.zip
   
   
-  #============================================================================================================
+ #============================================================================================================
    #Prepare for python bindings
   #- echo [build] compiler=mingw32 [build_ext] compiler=mingw32 >> c:\msys64\mingw32\lib\python2.7\distutils\distutils.cfg
   #- echo [build] compiler=mingw32 [build_ext] compiler=mingw32 >> c:\msys64\mingw32\lib\python3.6\distutils\distutils.cfg
-
-  # update pip to keep it from complaining
-  - "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
-  # wheel needs to be installed in order to build binary wheels for pysmu
-  - "pip3 install --only-binary :all: wheel"
-  # cython is required for generating the extensions
-  #- "pip3 install cython"
-  - "pip3 install pyreadline"
-  - "pip3 install zipfile36"
-  - C:\msys64\usr\bin\bash -lc "rm -rf build"
-  
-  # build python dist files
-  - set PATH=C:\\msys64\\mingw32\\lib\\python3.6;C:\\msys64\\mingw32\\lib\\python3.6\\Tools\\scripts;%PATH%
-  - cd C:\projects\libsmu\bindings\python
-  - "python3 --version"
-  - "python3 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
-  - "python3 setup.py build --compiler=mingw32"
-  - "python3 setup.py bdist_wheel --skip-build"
-  - "python3 setup.py bdist --skip-build --formats=msi"
-  #- "python3 setup.py bdist --skip-build --formats=wininst"
-  #- "python3 setup.py bdist_wininst"
-  #- "python3 setup.py bdist --skip-build --formats=tar"
-  #- "python3 setup.py bdist --skip-build --formats=zip"
-  #- ls build
-  - "python3 setup.py sdist"
-  
-  #- set PATH=C:\\msys64\\mingw32\\lib\\python2.7;C:\\msys64\\mingw32\\lib\\python2.7\\Tools\\scripts;%PATH%
-  - mkdir C:\projects\libsmu-python  
-  - set HOME = C:\projects\libsmu\bindings\python
+    
+  ## build 32 bit python 2.7 bindings
+  - "python2 --version"
+  - "python2 -c \"import struct; print(struct.calcsize('P') * 8)\""
   # update pip to keep it from complaining
   - "pip2 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
   # wheel needs to be installed in order to build binary wheels for pysmu
   - "pip2 install --only-binary :all: wheel"
   # cython is required for generating the extensions
-  #- "pip2 install cython"
-  - "pip2 install zipfile2"
+  - "pip2 install cython"
   
   # build python dist files
   - cd C:\projects\libsmu\bindings\python
-  - C:\msys64\usr\bin\bash -lc "rm -rf build"
-  - ls
-  - "python2 --version"
-  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - "python2 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
   - "python2 setup.py build"
   - "python2 setup.py bdist_wheel --skip-build"
-  - "python2 setup.py bdist --skip-build --format=msi"
-  #- "python2 setup.py bdist --skip-build --format zip"
-  - ls
+  - "python2 setup.py bdist --skip-build --format msi"
+  - ps: $PWD = Convert-Path .
+  - ps: $PWD = $PWD + "\build-temp"
+  - ps: $PWD
+  - ps: $PWD = ($PWD -replace "\\","/").Trim("/")
+  - ps: $PWD
+  - ps: $env:PWDD=$PWD
+  - echo %PWDD%
+  - "python2 setup.py bdist --format zip --bdist-base=%PWDD%"
+  - ls dist
   # test local install
-  - ps: Get-ChildItem dist/*-cp27-*-win32.whl | % { pip install "$_" }
+  - ps: Get-ChildItem dist/*-cp27-*-win32.whl | % { pip2 install "$_" }
+  - ps: Get-ChildItem dist/*-cp27-*-mingw.whl | % { pip2 install "$_" }
   
-  # push all dist files as artifacts
+  ## build 32 bit python 3.6 bindings
+  - "python3 --version"
+  - "python3 -c \"import struct; print(struct.calcsize('P') * 8)\""
+  # update pip to keep it from complaining
+  - "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
+  # wheel needs to be installed in order to build binary wheels for pysmu
+  - "pip3 install --only-binary :all: wheel"
+  # cython is required for generating the extensions
+  - "pip3 install cython"
+  
+  # build python dist files
+  - cd C:\projects\libsmu\bindings\python
+  - "python3 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
+  - "python3 setup.py build"
+  - "python3 setup.py bdist_wheel --skip-build"
+  - "python3 setup.py bdist --skip-build --format msi"
+  - echo %PWDD%
+  - "python3 setup.py bdist --format zip --bdist-base=%PWDD%"
+  - ls dist
+  # test local install
+  - ps: Get-ChildItem dist/*-cp36-*-win32.whl | % { pip3 install "$_" }
+  - ps: Get-ChildItem dist/*-cp36-*-mingw.whl | % { pip3 install "$_" }
+  
+    ## build 64 bit python 2.7 bindings
+  - "python2 --version"
+  - "python2 -c \"import struct; print(struct.calcsize('P') * 8)\""
+  # update pip to keep it from complaining
+  - "pip2 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
+  # wheel needs to be installed in order to build binary wheels for pysmu
+  - "pip2 install --only-binary :all: wheel"
+  # cython is required for generating the extensions
+  - "pip2 install cython"
+  
+  # build python dist files
+  - cd C:\projects\libsmu\bindings\python
+  - "python2 setup.py build_ext--compiler=mingw64 -L C:\\projects\\libsmu\\mingw-64\\src -I C:\\libusb-mingw64\\libusb"
+  - "python2 setup.py build"
+  - "python2 setup.py bdist_wheel --skip-build"
+  - "python2 setup.py bdist --skip-build --format msi"
+  - echo %PWDD%
+  - "python2 setup.py bdist --format zip --bdist-base=%PWDD%"
+  - ls dist
+  # test local install
+  - ps: Get-ChildItem dist/*-cp27-*-win_amd64.whl | % { pip2 install "$_" }
+  - ps: Get-ChildItem dist/*-cp27-*-mingw.whl | % { pip2 install "$_" }
+  
+  ## build 64 bit python 3.6 bindings
+  - "python3 --version"
+  - "python3 -c \"import struct; print(struct.calcsize('P') * 8)\""
+  # update pip to keep it from complaining
+  - "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
+  # wheel needs to be installed in order to build binary wheels for pysmu
+  - "pip3 install --only-binary :all: wheel"
+  # cython is required for generating the extensions
+  - "pip3 install cython"
+  
+  # build python dist files
+  - cd C:\projects\libsmu\bindings\python
+  - "python3 setup.py build_ext --compiler=mingw64 -L C:\\projects\\libsmu\\mingw-64\\src -I C:\\libusb-mingw64\\libusb"
+  - "python3 setup.py build"
+  - "python3 setup.py bdist_wheel --skip-build"
+  - "python3 setup.py bdist --skip-build --format msi"
+  - echo %PWDD%
+  - "python3 setup.py bdist --format zip --bdist-base=%PWDD%"
+  - ls dist
+  # test local install
+  - ps: Get-ChildItem dist/*-cp36-*-win_amd64.whl | % { pip3 install "$_" }
+  - ps: Get-ChildItem dist/*-cp36-*-mingw.whl | % { pip3 install "$_" }
+  
+  
+    # push all dist files as artifacts
   - ps: Get-ChildItem dist/.\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
-  # push pysmu binaries as artifacts
-  - ren exe32\pysmu.exe pysmu32.exe
-  - ren exe64\pysmu.exe pysmu64.exe
-  - appveyor PushArtifact exe32\pysmu32.exe
-  - appveyor PushArtifact exe64\pysmu64.exe
 #========================================================================================================
 
 cache:
   # cache innosetup download
   - C:\Users\appveyor\AppData\Local\Temp\chocolatey
   
-on_finish:
-    - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
