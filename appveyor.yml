@@ -139,6 +139,7 @@ build_script:
   - ps: Get-ChildItem dist/*-cp27-*-mingw.whl | % { pip2 install "$_" }
   
   ## build 32 bit python 3.6 bindings
+  - set PATH=C:\\msys64\\mingw32\\lib\\python3.6;C:\\msys64\\mingw32\\lib\\python3.6\\Tools\\scripts;%PATH%
   - "python3 --version"
   - "python3 -c \"import struct; print(struct.calcsize('P') * 8)\""
   # update pip to keep it from complaining
@@ -158,7 +159,56 @@ build_script:
   - "python3 setup.py bdist --format zip --bdist-base=%PWDD%"
   - ls dist
   # test local install
-  - ps: Get-ChildItem dist/*-cp36-*-win32.whl | % { pip3 install "$_" }
+  - ps: Get-ChildItem dist/*-cp36-*-mingw.whl | % { pip3 install "$_" }
+  
+  ## build 32 bit python 3.5 bindings
+  - C:\msys64\usr\bin\bash -lc "wget http://repo.msys2.org/mingw/i686/mingw-w64-i686-python3-3.5.3-2-any.pkg.tar.xz"
+  - C:\msys64\usr\bin\bash -lc "pacman -U --noconfirm mingw-w64-i686-python3-3.5.3-2-any.pkg.tar.xz"
+  - set PATH=C:\\msys64\\mingw32\\lib\\python3.5;C:\\msys64\\mingw32\\lib\\python3.5\\Tools\\scripts;%PATH%
+  - "python3 --version"
+  - "python3 -c \"import struct; print(struct.calcsize('P') * 8)\""
+  # update pip to keep it from complaining
+  - "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
+  # wheel needs to be installed in order to build binary wheels for pysmu
+  - "pip3 install --only-binary :all: wheel"
+  # cython is required for generating the extensions
+  - "pip3 install cython"
+  
+  # build python dist files
+  - cd C:\projects\libsmu\bindings\python
+  - "python3 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
+  - "python3 setup.py build"
+  - "python3 setup.py bdist_wheel --skip-build"
+  - "python3 setup.py bdist --skip-build --format msi"
+  - echo %PWDD%
+  - "python3 setup.py bdist --format zip --bdist-base=%PWDD%"
+  - ls dist
+  # test local install
+  - ps: Get-ChildItem dist/*-cp36-*-mingw.whl | % { pip3 install "$_" }
+  
+   ## build 32 bit python 3.4 bindings
+  - C:\msys64\usr\bin\bash -lc "wget http://repo.msys2.org/mingw/i686/mingw-w64-i686-python3-3.4.3-6-any.pkg.tar.xz"
+  - C:\msys64\usr\bin\bash -lc "pacman -U --noconfirm mingw-w64-i686-python3-3.4.3-6-any.pkg.tar.xz"
+  - set PATH=C:\\msys64\\mingw32\\lib\\python3.4;C:\\msys64\\mingw32\\lib\\python3.4\\Tools\\scripts;%PATH%
+  - "python3 --version"
+  - "python3 -c \"import struct; print(struct.calcsize('P') * 8)\""
+  # update pip to keep it from complaining
+  - "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
+  # wheel needs to be installed in order to build binary wheels for pysmu
+  - "pip3 install --only-binary :all: wheel"
+  # cython is required for generating the extensions
+  - "pip3 install cython"
+  
+  # build python dist files
+  - cd C:\projects\libsmu\bindings\python
+  - "python3 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
+  - "python3 setup.py build"
+  - "python3 setup.py bdist_wheel --skip-build"
+  - "python3 setup.py bdist --skip-build --format msi"
+  - echo %PWDD%
+  - "python3 setup.py bdist --format zip --bdist-base=%PWDD%"
+  - ls dist
+  # test local install
   - ps: Get-ChildItem dist/*-cp36-*-mingw.whl | % { pip3 install "$_" }
   
     ## build 64 bit python 2.7 bindings
@@ -185,6 +235,7 @@ build_script:
   - ps: Get-ChildItem dist/*-cp27-*-mingw.whl | % { pip2 install "$_" }
   
   ## build 64 bit python 3.6 bindings
+  - set PATH=C:\\msys64\\mingw64\\lib\\python3.6;C:\\msys64\\mingw64\\lib\\python3.6\\Tools\\scripts;%PATH%
   - "python3 --version"
   - "python3 -c \"import struct; print(struct.calcsize('P') * 8)\""
   # update pip to keep it from complaining
