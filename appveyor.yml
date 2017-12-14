@@ -76,8 +76,7 @@ build_script:
   - copy c:\projects\libsmu\mingw-32\examples\*.exe c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
   - copy c:\projects\libsmu\mingw-32\tests\*.exe c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
   # batch file to run test suite
-  - ls c:\projects\libsmu\mingw-32\tests
-  #- copy c:\projects\libsmu\mingw-32\tests\run-tests.bat c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
+  - copy c:\projects\libsmu\tests\run-tests.bat c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
   - copy c:\libusb-mingw\MinGW32\static\libusb-1.0.a c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
   - C:\msys64\usr\bin\bash -lc "cd c:/msys64/mingw32/bin ; cp -r libwinpthread-*.dll libgcc_*.dll libstdc++-*.dll libgomp-*.dll c:/libsmu-%LIBSMU_VERSION%-MinGW-win32"
   - 7z a "c:\libsmu-%LIBSMU_VERSION%-MinGW-win32.zip" c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
@@ -97,7 +96,7 @@ build_script:
   - copy c:\projects\libsmu\mingw-64\examples\*.exe c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
   - copy c:\projects\libsmu\mingw-64\tests\*.exe c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
    # batch file to run test suite
-  #- copy c:\projects\libsmu\mingw-64\tests\run-tests.bat c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
+  - copy c:\projects\libsmu\tests\run-tests.bat c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
   - copy c:\libusb-mingw64\libusb\.libs\libusb-1.0.a c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
   - C:\msys64\usr\bin\bash -lc "cd c:/msys64/mingw64/bin ; cp -r libwinpthread-*.dll libgcc_*.dll libstdc++-*.dll libgomp-*.dll c:/libsmu-%LIBSMU_VERSION%-MinGW-win64"
   - 7z a "c:\libsmu-%LIBSMU_VERSION%-MinGW-win64.zip" c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
