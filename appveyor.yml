@@ -70,14 +70,13 @@ build_script:
   - copy c:\projects\libsmu\mingw-32\src\libsmu.* c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
   - copy c:\projects\libsmu\mingw-32\src\cli\smu.exe c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
   # gtest libraries for test executables
-  - if(%CONFIGURATION%==Release){
-        copy c:\projects\libsmu\mingw-32\googletest-build\googlemock\gtest\libgtest* c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
-    }
-    else{
-        copy c:\projects\libsmu\mingw-32\googletest-build\googlemock\gtest\libgtestd* c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
-    }
+  - ps: |
+      if (Test-Path "c:\projects\libsmu\mingw-32\googletest-build\googlemock\gtest\libgtest*") { copy c:\projects\libsmu\mingw-32\googletest-build\googlemock\gtest\libgtest* c:\libsmu-%LIBSMU_VERSION%-MinGW-win32 }
+      if (Test-Path "c:\projects\libsmu\mingw-32\googletest-build\googlemock\gtest\libgtestd*") { copy c:\projects\libsmu\mingw-32\googletest-build\googlemock\gtest\libgtestd* c:\libsmu-%LIBSMU_VERSION%-MinGW-win32 }
   - copy c:\projects\libsmu\mingw-32\examples\*.exe c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
   - copy c:\projects\libsmu\mingw-32\tests\*.exe c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
+  # batch file to run test suite
+  - copy c:\projects\libsmu\mingw-32\tests\run-tests.bat c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
   - copy c:\libusb-mingw\MinGW32\static\libusb-1.0.a c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
   - C:\msys64\usr\bin\bash -lc "cd c:/msys64/mingw32/bin ; cp -r libwinpthread-*.dll libgcc_*.dll libstdc++-*.dll libgomp-*.dll c:/libsmu-%LIBSMU_VERSION%-MinGW-win32"
   - 7z a "c:\libsmu-%LIBSMU_VERSION%-MinGW-win32.zip" c:\libsmu-%LIBSMU_VERSION%-MinGW-win32
@@ -91,15 +90,13 @@ build_script:
   - copy c:\projects\libsmu\dist\m1k-winusbx64.cat c:\libsmu-%LIBSMU_VERSION%-MinGW-win64\drivers
   - copy c:\projects\libsmu\mingw-64\src\libsmu.* c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
   - copy c:\projects\libsmu\mingw-64\src\cli\smu.exe c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
-  # gtest libraries for test executables
-  - if(%CONFIGURATION%==Release){
-        copy c:\projects\libsmu\mingw-64\googletest-build\googlemock\gtest\libgtest* c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
-    }
-    else{
-        copy c:\projects\libsmu\mingw-64\googletest-build\googlemock\gtest\libgtestd* c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
-    }
+  - ps: |
+      if (Test-Path "c:\projects\libsmu\mingw-64\googletest-build\googlemock\gtest\libgtestd*") { copy c:\projects\libsmu\mingw-64\googletest-build\googlemock\gtest\libgtestd* c:\libsmu-%LIBSMU_VERSION%-MinGW-win64 }
+      if (Test-Path "c:\projects\libsmu\mingw-64\googletest-build\googlemock\gtest\libgtest*") { copy c:\projects\libsmu\mingw-64\googletest-build\googlemock\gtest\libgtest* c:\libsmu-%LIBSMU_VERSION%-MinGW-win64 }
   - copy c:\projects\libsmu\mingw-64\examples\*.exe c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
   - copy c:\projects\libsmu\mingw-64\tests\*.exe c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
+   # batch file to run test suite
+  - copy c:\projects\libsmu\mingw-64\tests\run-tests.bat c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
   - copy c:\libusb-mingw64\libusb\.libs\libusb-1.0.a c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
   - C:\msys64\usr\bin\bash -lc "cd c:/msys64/mingw64/bin ; cp -r libwinpthread-*.dll libgcc_*.dll libstdc++-*.dll libgomp-*.dll c:/libsmu-%LIBSMU_VERSION%-MinGW-win64"
   - 7z a "c:\libsmu-%LIBSMU_VERSION%-MinGW-win64.zip" c:\libsmu-%LIBSMU_VERSION%-MinGW-win64
@@ -138,7 +135,14 @@ build_script:
   - ls dist
   # test local install
   - ps: Get-ChildItem dist/*-cp27-*-win32.whl | % { pip2 install "$_" }
-  - ps: Get-ChildItem dist/*-cp27-*-mingw.whl | % { pip2 install "$_" }
+  # Create a folder to keep pysmu for all the python versions
+  - ps: | 
+      $a = dir pysmu*mingw.zip | select BaseName,Extension
+      mkdir "$($a.BaseName)-py"
+  - ls
+  - cd pysmu*mingw-py
+  - 7z x ..\dist\pysmu*mingw.zip .
+  - ls
   
   ## build 32 bit python 3.6 bindings
   - set PATH=C:\\msys64\\mingw32\\lib\\python3.6;C:\\msys64\\mingw32\\lib\\python3.6\\Tools\\scripts;%PATH%
@@ -162,103 +166,13 @@ build_script:
   - ls dist
   # test local install
   - ps: Get-ChildItem dist/*-cp36-*-mingw.whl | % { pip3 install "$_" }
-  
-  ## build 32 bit python 3.5 bindings
-  #- C:\msys64\usr\bin\bash -lc "wget http://repo.msys2.org/mingw/i686/mingw-w64-i686-python3-3.5.3-2-any.pkg.tar.xz"
-  #- C:\msys64\usr\bin\bash -lc "pacman -U --noconfirm mingw-w64-i686-python3-3.5.3-2-any.pkg.tar.xz"
-  #- set PATH=C:\\msys64\\mingw32\\lib\\python3.5;C:\\msys64\\mingw32\\lib\\python3.5\\Tools\\scripts;%PATH%
-  #- "python3 --version"
-  #- "python3 -c \"import struct; print(struct.calcsize('P') * 8)\""
-  # update pip to keep it from complaining
-  #- "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
-  # wheel needs to be installed in order to build binary wheels for pysmu
-  #- "pip3 install --only-binary :all: wheel"
-  # cython is required for generating the extensions
-  #- "pip3 install cython"
-  
-  # build python dist files
-  #- cd C:\projects\libsmu\bindings\python
-  #- "python3 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
-  #- "python3 setup.py build"
-  #- "python3 setup.py bdist_wheel --skip-build"
-  #- "python3 setup.py bdist --skip-build --format msi"
-  #- echo %PWDD%
-  #- "python3 setup.py bdist --format zip --bdist-base=%PWDD%"
-  #- ls dist
-  # test local install
-  #- ps: Get-ChildItem dist/*-cp36-*-mingw.whl | % { pip3 install "$_" }
-  
-   ## build 32 bit python 3.4 bindings
-  #- C:\msys64\usr\bin\bash -lc "wget http://repo.msys2.org/mingw/i686/mingw-w64-i686-python3-3.4.3-6-any.pkg.tar.xz"
-  #- C:\msys64\usr\bin\bash -lc "pacman -U --noconfirm mingw-w64-i686-python3-3.4.3-6-any.pkg.tar.xz"
-  #- set PATH=C:\\msys64\\mingw32\\lib\\python3.4;C:\\msys64\\mingw32\\lib\\python3.4\\Tools\\scripts;%PATH%
-  #- "python3 --version"
-  #- "python3 -c \"import struct; print(struct.calcsize('P') * 8)\""
-  # update pip to keep it from complaining
-  #- "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
-  # wheel needs to be installed in order to build binary wheels for pysmu
-  #- "pip3 install --only-binary :all: wheel"
-  # cython is required for generating the extensions
-  #- "pip3 install cython"
-  
-  # build python dist files
-  #- cd C:\projects\libsmu\bindings\python
-  #- "python3 setup.py build_ext --compiler=mingw32 -L C:\\projects\\libsmu\\mingw-32\\src -I C:\\libusb-mingw\\include\\libusb-1.0"
-  #- "python3 setup.py build"
-  #- "python3 setup.py bdist_wheel --skip-build"
-  #- "python3 setup.py bdist --skip-build --format msi"
-  #- echo %PWDD%
-  #- "python3 setup.py bdist --format zip --bdist-base=%PWDD%"
-  #- ls dist
-  # test local install
-  #- ps: Get-ChildItem dist/*-cp36-*-mingw.whl | % { pip3 install "$_" }
-  
-    ##### build 64 bit python 2.7 bindings
-  - "python2 --version"
-  - "python2 -c \"import struct; print(struct.calcsize('P') * 8)\""
-  # update pip to keep it from complaining
-  - "pip2 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
-  # wheel needs to be installed in order to build binary wheels for pysmu
-  - "pip2 install --only-binary :all: wheel"
-  # cython is required for generating the extensions
-  - "pip2 install cython"
-  
-  # build python dist files
-  - cd C:\projects\libsmu\bindings\python
-  - "python2 setup.py build_ext --compiler=mingw64 -L C:\\projects\\libsmu\\mingw-64\\src -I C:\\libusb-mingw64\\libusb"
-  - "python2 setup.py build"
-  - "python2 setup.py bdist_wheel --skip-build"
-  - "python2 setup.py bdist --skip-build --format msi"
-  - echo %PWDD%
-  - "python2 setup.py bdist --format zip --bdist-base=%PWDD%"
-  - ls dist
-  # test local install
-  - ps: Get-ChildItem dist/*-cp27-*-win_amd64.whl | % { pip2 install "$_" }
-  - ps: Get-ChildItem dist/*-cp27-*-mingw.whl | % { pip2 install "$_" }
-  
-  ## build 64 bit python 3.6 bindings
-  - set PATH=C:\\msys64\\mingw64\\lib\\python3.6;C:\\msys64\\mingw64\\lib\\python3.6\\Tools\\scripts;%PATH%
-  - "python3 --version"
-  - "python3 -c \"import struct; print(struct.calcsize('P') * 8)\""
-  # update pip to keep it from complaining
-  - "pip3 install --only-binary :all: --disable-pip-version-check --user --upgrade pip"
-  # wheel needs to be installed in order to build binary wheels for pysmu
-  - "pip3 install --only-binary :all: wheel"
-  # cython is required for generating the extensions
-  - "pip3 install cython"
-  
-  # build python dist files
-  - cd C:\projects\libsmu\bindings\python
-  - "python3 setup.py build_ext --compiler=mingw64 -L C:\\projects\\libsmu\\mingw-64\\src -I C:\\libusb-mingw64\\libusb"
-  - "python3 setup.py build"
-  - "python3 setup.py bdist_wheel --skip-build"
-  - "python3 setup.py bdist --skip-build --format msi"
-  - echo %PWDD%
-  - "python3 setup.py bdist --format zip --bdist-base=%PWDD%"
-  - ls dist
-  # test local install
-  - ps: Get-ChildItem dist/*-cp36-*-win_amd64.whl | % { pip3 install "$_" }
-  - ps: Get-ChildItem dist/*-cp36-*-mingw.whl | % { pip3 install "$_" }
+  # Create a folder to keep pysmu for all the python versions
+  - ls
+  - cd pysmu*mingw-py
+  - 7z x ..\dist\pysmu*mingw.zip .
+  - ls
+  - cd ..
+  - 7z a "c:\projects\libsmu\bindings\python\dist\pysmu-%LIBSMU_VERSION%-mingw-py.zip" pysmu*mingw-py
 
     # push all dist files as artifacts
   - ps: Get-ChildItem dist/.\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
