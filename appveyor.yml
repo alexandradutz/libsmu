@@ -137,7 +137,7 @@ build_script:
   - ps: Get-ChildItem dist/*-cp27-*-win32.whl | % { pip2 install "$_" }
   # Create a folder to keep pysmu for all the python versions
   - ps: | 
-      $a = dir *mingw.zip | select BaseName,Extension
+      $a = dir dist\*mingw.zip | select BaseName,Extension
       mkdir "$($a.BaseName)-py"
   - ls
   - cd pysmu*mingw-py
