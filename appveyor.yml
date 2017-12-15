@@ -141,7 +141,7 @@ build_script:
       mkdir "$($a.BaseName)-py"
   - ls
   - cd pysmu*mingw-py
-  - 7z x ..\dist\pysmu*mingw.zip .
+  - 7z x -y ..\dist\pysmu*mingw.zip .
   - ls
   
   ## build 32 bit python 3.6 bindings
@@ -169,7 +169,7 @@ build_script:
   # Create a folder to keep pysmu for all the python versions
   - ls
   - cd pysmu*mingw-py
-  - 7z x ..\dist\pysmu*mingw.zip .
+  - 7z x -y ..\dist\pysmu*mingw.zip .
   - ls
   - cd ..
   - 7z a "c:\projects\libsmu\bindings\python\dist\pysmu-%LIBSMU_VERSION%-mingw-py.zip" pysmu*mingw-py
