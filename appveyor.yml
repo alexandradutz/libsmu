@@ -136,12 +136,13 @@ build_script:
   # test local install
   - ps: Get-ChildItem dist/*-cp27-*-win32.whl | % { pip2 install "$_" }
   # Create a folder to keep pysmu for all the python versions
-  - ps: | 
-      $a = dir dist\*mingw.zip | select BaseName,Extension
-      mkdir "$($a.BaseName)-py"
-  - ls
-  - cd pysmu*mingw-py
-  - 7z x -y "c:\projects\libsmu\bindings\python\dist\pysmu*mingw.zip" -o"c:\projects\libsmu\bindings\python\pysmu*mingw-py"
+  #- ps: | 
+  #    $a = dir dist\*mingw.zip | select BaseName,Extension
+  #    mkdir "$($a.BaseName)-py"
+  #- ls
+  - mkdir "pysmu-%LIBSMU_VERSION%-mingw-py"
+  - 7z x -y "c:\projects\libsmu\bindings\python\dist\pysmu*mingw.zip" -o"c:\projects\libsmu\bindings\python\pysmu-%LIBSMU_VERSION%-mingw-py"
+  - cd pysmu-*-mingw-py
   - ls
   
   ## build 32 bit python 3.6 bindings
@@ -167,12 +168,11 @@ build_script:
   # test local install
   - ps: Get-ChildItem dist/*-cp36-*-mingw.whl | % { pip3 install "$_" }
   # Create a folder to keep pysmu for all the python versions
-  - ls
+  - 7z x -y "c:\projects\libsmu\bindings\python\dist\pysmu*mingw.zip" -o"c:\projects\libsmu\bindings\python\pysmu-%LIBSMU_VERSION%-mingw-py"
   - cd pysmu*mingw-py
-  - 7z x -y "c:\projects\libsmu\bindings\python\dist\pysmu*mingw.zip" -o"c:\projects\libsmu\bindings\python\pysmu*mingw-py"
   - ls
   - cd ..
-  - 7z a -y "c:\projects\libsmu\bindings\python\dist\pysmu-%LIBSMU_VERSION%-mingw-py.zip" pysmu*mingw-py
+  - 7z a -y "c:\projects\libsmu\bindings\python\dist\pysmu-%LIBSMU_VERSION%-mingw-py.zip" pysmu-*mingw-py
 
     # push all dist files as artifacts
   - ps: Get-ChildItem dist/.\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
